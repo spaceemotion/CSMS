@@ -11,9 +11,17 @@
 		/**
 		 * The server version
 		 *
+		 * @var string
+		 */
+		public static $server_version;
+
+
+		/**
+		 * The protocoll version
+		 *
 		 * @var int
 		 */
-		public static $version;
+		public static $protocol_version;
 
 
 		/**
@@ -107,10 +115,20 @@
 		 * @param string $error
 		 * @param bool $die
 		 */
-		public function setLastError($error, $die = false) {
-			$this->lastError = $error;
+		private function setLastError($error, $die = false) {
+			$this->lastError = $error.PHP_EOL;
 
 			if($die) die($this->lastError);
+		}
+
+
+		/**
+		 * Echoes message to console
+		 *
+		 * @param string $msg
+		 */
+		private function log($msg) {
+			echo date("m/d/y H:i:s", time()) . ": " . $msg . PHP_EOL;
 		}
 	}
 
