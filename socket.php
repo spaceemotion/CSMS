@@ -85,8 +85,9 @@
 								$running = false;
 								break;
 						}
-
-						socket_write($v, "$k> ", 3).chr(0);
+						
+						if(is_resource($v))
+							socket_write($v, "$k> ", 3).chr(0);
 					}
 				} else {
 
