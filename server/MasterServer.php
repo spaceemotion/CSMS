@@ -1,6 +1,7 @@
 <?php
 
 	require APATH.'server/AbstractServer.php';
+	require APATH.'server/ClientHandler.php';
 
 	/**
 	 * Implementation of the MasterServer
@@ -49,29 +50,28 @@
 		}
 
 		public function listen() {
-			$j = 0; $client = array(); $read = array();
-
-			if (count($client)) {
-				foreach ($client AS $k => $v) {
-					$read[$j] = $v;
-
-					$j++;
+			$read = array();
+			
+			if (count($this->clients)) {
+				foreach ($this->clients as $v) {
+					if($v->running){
+						array_push($read, $v);
+					}
 				}
 			}
 
-			$client = $read;
+			$this->clients = $read;
 
-			if ($newsock = @socket_accept($sock)) {
+			if ($newsock = @socket_accept($this->socket)) {
 				if (is_resource($newsock)) {
-					echo "New client connected $j\n";
+					echo "New client connected!\n";
 
-					$client[$j] = new ClientHandler($newsock);
-					$j++;
+					array_push($this->clients, new ClientHandler($newsock));
 				}
 			}
 
-			if (count($client)) {
-				foreach ($client AS $k => $v) {
+			if (count($this->clients)) {
+				foreach ($this->clients as $v) {
 					$v->handle();
 				}
 			}
