@@ -49,7 +49,36 @@
 		}
 
 		public function listen() {
-			// TODO
+			unset($read);
+
+			$j = 0;
+
+			if (count($client)) {
+				foreach ($client AS $k => $v) {
+					$read[$j] = $v;
+
+					$j++;
+				}
+			}
+
+			$client = $read;
+
+			if ($newsock = @socket_accept($sock)) {
+				if (is_resource($newsock)) {
+					echo "New client connected $j\n";
+
+					$client[$j] = new ClientHandler($newsock);
+					$j++;
+				}
+			}
+
+			if (count($client)) {
+				foreach ($client AS $k => $v) {
+					$v->handle();
+				}
+			}
+
+			usleep(1000);
 		}
 	}
 
