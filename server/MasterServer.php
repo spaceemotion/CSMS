@@ -1,8 +1,8 @@
 <?php
 
-	require './AbstractServer.php';
+	require __DIR__.'AbstractServer.php';
 
-	
+
 	/**
 	 * Implementation of the MasterServer
 	 *
