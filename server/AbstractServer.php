@@ -64,6 +64,13 @@
 		protected $lastError;
 
 
+		/**
+		 * True if the server is running
+		 *
+		 * @var bool
+		 */
+		protected $isRunning;
+
 
 		// --------------- Methods ---------------
 
@@ -129,6 +136,16 @@
 		 */
 		private function log($msg) {
 			echo date("m/d/y H:i:s", time()) . ": " . $msg . PHP_EOL;
+		}
+
+
+		/**
+		 * Returns true if the server is running
+		 *
+		 * @return bool
+		 */
+		public function isRunning() {
+			return $this->isRunning;
 		}
 	}
 

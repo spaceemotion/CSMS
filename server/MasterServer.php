@@ -1,5 +1,8 @@
 <?php
 
+	require './AbstractServer.php';
+
+	
 	/**
 	 * Implementation of the MasterServer
 	 *
