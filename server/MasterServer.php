@@ -26,7 +26,7 @@
 			if (!socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1))
 				$this->setLastError('Unable to set option on socket: '.socket_strerror(socket_last_error()), true);
 
-			if (!socket_bind($this->socket, $this->adddress, $this->port))
+			if (!socket_bind($this->socket, self::adddress, self::port))
 				$this->setLastError('Unable to bind socket: '.socket_strerror(socket_last_error()), true);
 
 			$reuse_val = socket_get_option($sock, SOL_SOCKET, SO_REUSEADDR);

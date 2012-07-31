@@ -125,7 +125,7 @@
 		private function setLastError($error, $die = false) {
 			$this->lastError = $error.PHP_EOL;
 
-			if($die) die($this->lastError);
+			if($die) die($this->log($this->lastError, "[ERROR]"));
 		}
 
 
@@ -134,8 +134,8 @@
 		 *
 		 * @param string $msg
 		 */
-		private function log($msg) {
-			echo date("m/d/y H:i:s", time()) . ": " . $msg . PHP_EOL;
+		private function log($msg, $prefix = "[INFO]") {
+			echo date("m/d/y H:i:s", time()).": $prefix $msg".PHP_EOL;
 		}
 
 
