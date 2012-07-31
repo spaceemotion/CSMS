@@ -1,7 +1,7 @@
 <?php
 
 	// Defines
-	define(APATH, __DIR__);
+	define(APATH, __DIR__ . "/");
 
 	// Requires
 	require APATH.'server/MasterServer.php';
