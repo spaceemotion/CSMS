@@ -29,7 +29,7 @@
 		 *
 		 * @var int
 		 */
-		public static $port;
+		public $port;
 
 
 		/**
@@ -37,7 +37,7 @@
 		 *
 		 * @var string
 		 */
-		public static $address;
+		public $address;
 
 
 		/**
@@ -122,7 +122,7 @@
 		 * @param string $error
 		 * @param bool $die
 		 */
-		private function setLastError($error, $die = false) {
+		public function setLastError($error, $die = false) {
 			$this->lastError = $error.PHP_EOL;
 
 			if($die) die($this->lastError);
@@ -134,7 +134,7 @@
 		 *
 		 * @param string $msg
 		 */
-		private function log($msg) {
+		public function log($msg) {
 			echo date("m/d/y H:i:s", time()) . ": " . $msg . PHP_EOL;
 		}
 

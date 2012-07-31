@@ -1,8 +1,7 @@
 <?php
 
-	require './AbstractServer.php';
+	require './server/AbstractServer.php';
 
-	
 	/**
 	 * Implementation of the MasterServer
 	 *
@@ -12,9 +11,8 @@
 		public static $server_version = '1.0';
 		public static $protocol_version = 0;
 
-		public static $address = '127.0.0.1';
-		public static $port = 3032;
-
+		public $address = '127.0.0.1';
+		public $port = 3032;
 
 		public function __construct() {
 			// Create socket
@@ -26,10 +24,10 @@
 			if (!socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1))
 				$this->setLastError('Unable to set option on socket: '.socket_strerror(socket_last_error()), true);
 
-			if (!socket_bind($this->socket, $this->adddress, $this->port))
+			if (!socket_bind($this->socket, $this->address, $this->port))
 				$this->setLastError('Unable to bind socket: '.socket_strerror(socket_last_error()), true);
 
-			$reuse_val = socket_get_option($sock, SOL_SOCKET, SO_REUSEADDR);
+			$reuse_val = socket_get_option($this->socket, SOL_SOCKET, SO_REUSEADDR);
 
 			if ($reuse_val === false)
 				$this->setLastError('Unable to get socket option: '.socket_strerror(socket_last_error()), true);
@@ -41,6 +39,8 @@
 
 			// Set to non block socket type
 			socket_set_nonblock($this->socket);
+			
+			$this->isRunning = true;
 		}
 
 		public function __destruct() {
@@ -49,9 +49,7 @@
 		}
 
 		public function listen() {
-			unset($read);
-
-			$j = 0;
+			$j = 0; $client = array(); $read = array();
 
 			if (count($client)) {
 				foreach ($client AS $k => $v) {
