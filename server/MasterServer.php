@@ -1,6 +1,6 @@
 <?php
 
-	require './server/AbstractServer.php';
+	require APATH.'server/AbstractServer.php';
 
 	/**
 	 * Implementation of the MasterServer
