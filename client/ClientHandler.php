@@ -8,6 +8,7 @@
 	class ClientHandler {
 
 		public $running;
+		public $id;
 
 		private $server;
 		private $socket;
@@ -31,7 +32,16 @@
 
 				$this->server->log(rtrim(StringHelper::strtohex($out), ":") . ": $out", "IN <--");
 
-				$this->write("> ");
+				$className = ucfirst($string)."Command";
+				$file = APATH."server/commands/$className.php";
+				if(file_exists($file)) {
+					include $file;
+
+					$cmd = new $className();
+					$cmd->execute(&$this);
+				}
+
+				$this->write("> ", 2);
 			}
 		}
 
@@ -39,9 +49,7 @@
 			return @socket_read($this->socket, 1024);
 		}
 
-		public function write($bytes, $size = null){
-			if(!$size) $size = sizeof ($var);
-
+		public function write($bytes, $size){
 			return socket_write($this->socket, $bytes, $size).chr(0);
 		}
 

@@ -8,9 +8,9 @@
 	abstract class AbstractCommand {
 		/**
 		 * Executes the command
-		 * 
+		 *
 		 */
-		abstract public function execute();
+		abstract public function execute(&$client);
 	}
 
 ?>

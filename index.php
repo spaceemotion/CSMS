@@ -11,10 +11,10 @@
 	$server = new MasterServer();
 
 	// Main loop
-	while( $server->isRunning() ) {
+	do {
 		$server->listen();
 		usleep(1000);
-	}
+	} while( $server->isRunning() );
 
 
 	// Clean up

@@ -64,9 +64,12 @@
 
 			if ($newsock = @socket_accept($this->socket)) {
 				if (is_resource($newsock)) {
-					$this->log("New client connected!");
+					$clientId = array_push($this->clients, new ClientHandler($this, $newsock));
 
-					array_push($this->clients, new ClientHandler($this, $newsock));
+					$client = $this->getClient($clientId);
+					$client->id = $clientId;
+
+					$this->log("New client connected with id $clientId");
 				}
 			}
 
@@ -74,6 +77,10 @@
 				foreach ($this->clients as $client)
 					$client->handle();
 			}
+		}
+
+		public function getClient($id) {
+			return $this->clients[$id];
 		}
 	}
 
