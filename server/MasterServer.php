@@ -1,7 +1,7 @@
 <?php
 
 	require APATH.'server/AbstractServer.php';
-	require APATH.'server/ClientHandler.php';
+	require APATH.'client/ClientHandler.php';
 
 	/**
 	 * Implementation of the MasterServer
@@ -40,7 +40,7 @@
 
 			// Set to non block socket type
 			socket_set_nonblock($this->socket);
-			
+
 			$this->isRunning = true;
 		}
 
@@ -51,11 +51,11 @@
 
 		public function listen() {
 			$read = array();
-			
+
 			if (count($this->clients)) {
-				foreach ($this->clients as $v) {
-					if($v->running){
-						array_push($read, $v);
+				foreach ($this->clients as $client) {
+					if($client->running){
+						array_push($read, $client);
 					}
 				}
 			}
@@ -64,19 +64,16 @@
 
 			if ($newsock = @socket_accept($this->socket)) {
 				if (is_resource($newsock)) {
-					echo "New client connected!\n";
+					$this->log("New client connected!");
 
-					array_push($this->clients, new ClientHandler($newsock));
+					array_push($this->clients, new ClientHandler($this, $newsock));
 				}
 			}
 
 			if (count($this->clients)) {
-				foreach ($this->clients as $v) {
-					$v->handle();
-				}
+				foreach ($this->clients as $client)
+					$client->handle();
 			}
-
-			usleep(1000);
 		}
 	}
 
