@@ -1,5 +1,7 @@
 <?php
 
+	require APATH.'server/helper/StringHelper.php';
+
 	/**
 	 * @version 1.0
 	 */
@@ -25,9 +27,9 @@
 			if ($string != null && !empty($string)) {
 				ob_start();
 				var_dump($string);
-				$out = ob_get_clean();
+				$out = rtrim(ob_get_clean(), "\r\n");
 
-				$this->server->log($out, "IN <--");
+				$this->server->log(rtrim(StringHelper::strtohex($out), ":") . ": $out", "IN <--");
 
 				$this->write("> ");
 			}
