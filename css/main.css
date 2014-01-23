@@ -1,0 +1,110 @@
+#search-form {
+  width: 300px;
+}
+body {
+  padding: 50px 0 0 0;
+}
+#footer {
+  margin-top: 20px;
+}
+
+/* Old Stuff */
+.media-item {
+  padding-bottom: 20px;
+}
+
+#sidebar {
+  position: fixed; 
+}
+
+
+/* Jumbotron styling */
+.jumbo-image:not(.jumbo-header) {
+  margin-top: 30px;
+}
+.jumbo-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+.jumbo-image .container {
+  background-color: #000;
+  background-color: rgba(0,0,0,0.5);
+  color: #FFF;
+}
+
+/* Connect Buttons */
+.btn-connect {
+   color: #FFF; 
+   min-width: 38px;
+}
+.btn-connect:hover {
+  color: #D6D6D6;
+}
+#connect-fb {
+  background-color: #4e69a2;
+}
+
+#connect-tw {
+  background-color: #4cb6e9;
+}
+#connect-gp {
+  background-color: #dd4b38;
+}
+#connect-pi {
+  background-color: #51DB56;
+}
+#connect-fl {
+  background-color: #ff0084;
+}
+
+/* Article Styling */
+article img {
+  width: 50%;
+  margin: 0 auto;
+  padding: 10px;
+  display: block;
+}
+
+/* Video */
+#video{
+  overflow: hidden;
+  position: relative;
+}
+.video-match{
+  height: 100%;
+  position: absolute;
+  right: 0;
+}
+
+iframe {
+  border: none;
+  margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .video-match{
+    height: auto;
+    min-height: 300px;
+    position: relative;
+    margin-top: 30px;
+  }
+  
+  #awards .row img {
+    margin: 0 auto 20px;
+    display: block;
+    width: 60%;
+  }
+  
+  article img {
+    width: 80%;
+  }
+}
+
+#awards .row{
+  padding: 20px 0;
+}
+
+#awards .row:not(:last-child){
+  border-bottom: 1px solid #EEE;
+}
