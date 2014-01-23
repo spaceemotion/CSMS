@@ -3,10 +3,9 @@
   <head>
     <title><?= $vars['title'];?></title>
     <meta charset="utf-8">
-    <meta name="description" content="The CatacombSnatch Repository">
+    <meta name="description" content="The Catacomb Snatch Repository">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <? /* <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootswatch/3.0.2/cyborg/bootstrap.min.css" /> */ ?>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
   </head>
@@ -57,9 +56,9 @@
         <? /* add more stuff here */ ?><br /><br />
         <div class="hidden-xs">
           <span>Connect with us:</span>
-          <a class="btn btn-connect navbar-btn" id="connect-fb" target="_blank" href="https://www.facebook.com/groups/20283134351/"><i class="fa fa-facebook"></i></a>
-          <a class="btn btn-connect navbar-btn" id="connect-tw" target="_blank" href="https://twitter.com/becycle"><i class="fa fa-twitter"></i></a>
-          <a class="btn btn-connect navbar-btn" id="connect-gp" target="_blank" href="https://plus.google.com/100750121390035584506/about?gl=US&amp;hl=en"><i class="fa fa-google-plus"></i></a>
+          <a class="btn btn-connect navbar-btn" id="connect-fb" target="_blank" href="//facebook.com/"><i class="fa fa-facebook"></i></a>
+          <a class="btn btn-connect navbar-btn" id="connect-tw" target="_blank" href="//twitter.com/"><i class="fa fa-twitter"></i></a>
+          <a class="btn btn-connect navbar-btn" id="connect-gp" target="_blank" href="//plus.google.com/"><i class="fa fa-google-plus"></i></a>
         </div>
   			<p style="font-size: 10px;">The original resources of the game are, and remain the property of <a href="http://www.mojang.com/">Mojang AB</a>. Given the lack of information provided by Mojang AB regarding the licensing of these resources, any use, dissemination or reproduction of them is done without any warranty regarding their legality. <a href="/game/licence">Click here for the full licence</a></p>
       </div>
