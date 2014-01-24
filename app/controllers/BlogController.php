@@ -1,5 +1,5 @@
 <?php
-  class WebBlogController extends WebBaseController {
+  class BlogController extends \BaseController {
     public function index() {
       global $config;
       
