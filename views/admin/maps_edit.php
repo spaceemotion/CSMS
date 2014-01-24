@@ -1,6 +1,6 @@
 <div class="container">
   <br />
-  <form role="form" action="/admin/projects/post/<?php echo $vars["project"]["id"];?>" method="POST">
+  <form role="form" action="/admin/projects/post/<?= $vars["project"]["id"];?>" method="POST">
     <div class="form-group">
       <label for="name">Name</label>
       <input type="text" class="form-control" id="name" name="name" placeholder="Title" value="<?php echo $vars["project"]["name"];?>"/>

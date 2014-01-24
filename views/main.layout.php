@@ -31,7 +31,7 @@
         
           <ul class="nav navbar-nav navbar-right">
             <? if(false):?>
-            <p class="navbar-text hidden-xs">Signed in as <?=login['name'];?></p>
+            <p class="navbar-text hidden-xs">Signed in as <?= $login['name'];?></p>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
               <ul class="dropdown-menu">

@@ -9,20 +9,22 @@
     </div>
     <div class="col-sm-9">
       <div class="row">
-        <? if($vars['servers']):?>
+        <? if($vars['maps']):?>
+        <? foreach($vars['maps'] as $map)?>
         <div class="list-item col-sm-6">
           <div class="media">
-            <a class="pull-left" href="/server/{{id}}">
-              <img class="media-object" src="/img/server/{{id}}" alt="...">
+            <a class="pull-left" href="/map/<?=$map['id']?>">
+              <img class="media-object" src="/img/map/<?=$map['id']?>" alt="...">
             </a>
             <div class="media-body">
-              <h4 class="media-heading"><?=$vars['servers']['name']?></h4>
-              <h5>Owner: <?=$vars['servers']['by']?></h5>
+              <h4 class="media-heading"><?=$map['name']?></h4>
+              <h5>Owner: <?=$map['by']?></h5>
             </div>
           </div>
         </div>
+        <? endforeach;?>
         <? else:?>
-        <h2>No Servers Found!</h2>
+        <h2>No Maps Found!</h2>
         <? endif;?>
       </div>
     </div>

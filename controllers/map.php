@@ -1,22 +1,25 @@
 <?php
   class Map {
     public function index() {
+      global $config;
+      
       $db = new DB();
       
       if($db->connected()) {
         $page = params("page") != null ? intval(params("page")) : 0;
         
         $rows = 3;
-        $limit = $rows * 3;
+        $limit = $rows * 2;
         $start = $page * $limit;
         
-        $query = sprintf("SELECT SQL_CALC_FOUND_ROWS `id`, `name`, `info` FROM `projects` ORDER BY `added` DESC LIMIT %s, %s",
+        // TODO: Accept custom queries
+        $query = sprintf("SELECT SQL_CALC_FOUND_ROWS `id`, `name`, `info` FROM `maps` ORDER BY `added` DESC LIMIT %s, %s",
           $db->escape_string($start),
           $db->escape_string($limit)
         );
         $result = $db->query($query);
         
-        $projects = Array();
+        $maps = Array();
         $pages = Array(
           "previous" => null,
           "next" => null
@@ -41,7 +44,7 @@
           }
           
           while($row = $result->fetch_assoc()) {
-            array_push($projects, Array(
+            array_push($maps, Array(
               "id" => $row["id"],
               "name" => $row["name"],
               "info" => Parsedown::instance()->parse($row['info'])
@@ -49,22 +52,24 @@
           }
         }
         
-        set('title', "beCyCle - Projects");
-        set("projects", $projects);
+        set('title', $config['site_name'] . " - Projects");
+        set("maps", $maps);
         set('active', "projects");
         set('pages', $pages);
-        return render("main/projects.php", "main.layout.php");
+        return render("main/maps.php", "main.layout.php");
       } else {
         halt(SERVER_ERROR, "Database not connected");
       }
     }
     
     public function id() {
+      global $config;
+      
       $id = params("id");
       $db = new DB();
       
       if($db->connected()) {
-        $query = sprintf("SELECT `name`, `info`, `added`, `by` FROM `projects` WHERE `id` = '%s'", 
+        $query = sprintf("SELECT `name`, `info`, `added`, `by` FROM `maps` WHERE `id` = '%s'", 
           $db->escape_string($id)
         );
         $result = $db->query($query);
@@ -87,7 +92,7 @@
               }
             }
             
-            $project = Array(
+            $map = Array(
               "name" => $row["name"],
               "info" => Parsedown::instance()->parse($row['info']),
               "added" => $date->format('l jS M Y'),
@@ -96,10 +101,10 @@
           }
         }
         
-        set('title', "beCyCle - " . ($project["name"] ? $project["name"] : "Unknown Page"));
-        set("project", $project);
-        set('active', "projects");
-        return render("main/project.php", "main.layout.php");
+        set('title', $config['site_name'] . ($map["name"] ? $map["name"] : "Unknown Map"));
+        set("map", $map);
+        set('active', "maps");
+        return render("main/map.php", "main.layout.php");
       } else {
         halt(SERVER_ERROR, "Database not connected");
       }
