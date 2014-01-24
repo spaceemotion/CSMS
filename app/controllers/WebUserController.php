@@ -1,5 +1,5 @@
 <?php
-class UserController extends MainBaseController {
+class WebUserController extends WebBaseController {
   
   public function index() {
     $id = params('id');

@@ -1,6 +1,6 @@
 <?php
 
-class MainBaseController extends BaseController {
+class WebBaseController extends BaseController {
   
   protected $layout = 'layouts.main';
   

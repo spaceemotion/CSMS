@@ -1,5 +1,5 @@
 <?php
-class ServerController extends MainBaseController {
+class WebServerController extends WebBaseController {
   
   public function index() {
     global $config;

@@ -1,5 +1,5 @@
 <?php
-  class MapController extends MainBaseController {
+  class WebMapController extends WebBaseController {
     public function index() {
       global $config;
       
