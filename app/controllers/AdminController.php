@@ -1,5 +1,5 @@
 <?php
-  class Admin {
+  class AdminController extends AdminBaseController {
     public function index() {
       $db = new DB();
       $login = User::check_login();

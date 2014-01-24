@@ -1,24 +1,24 @@
 <?php 
-  class AdminBlogController extends BaseController {
+  class AdminMapsController extends AdminBaseController {
      /* Blog Posts */
     public function index() {
       $login = Admin::check_login();
       
-      if($login) {
+      if($login != false) {
         $db = new DB();
-        $posts = Array();
+        $projects = Array();
         $pages = Array(
           "next" => null,
           "previous" => null
         );
         
-        $limit = 3;
-        
         $page = params("page") != null ? intval(params("page")) : 0;
-        $start = $page * $limit; // Add in code to display more blog posts
+         
+        $limit = 3;
+        $start = $page * $limit;
         
         if($db->connected()) {
-          $query = sprintf("SELECT SQL_CALC_FOUND_ROWS `id`, `title`, `info` FROM `blog` ORDER BY `id` DESC LIMIT %s, %s",
+          $query = sprintf("SELECT SQL_CALC_FOUND_ROWS `id`, `name`, `info` FROM `projects` ORDER BY `added` DESC LIMIT %s, %s",
             $db->escape_string($start),
             $db->escape_string($limit)
           );
@@ -26,10 +26,10 @@
           
           if($result != false) {
             while($row = $result->fetch_assoc()) {
-              array_push($posts, Array(
+              array_push($projects, Array(
                 "id" => $row['id'],
-                "title" => $row['title'],
-                "info" => Parsedown::instance()->parse($row['info'])
+                "name" => $row['name'],
+                "info" => $row['info']
               ));
             }
             
@@ -53,11 +53,11 @@
         }
         
         set('login', $login);
-        set('posts', $posts);
+        set('projects', $projects);
         set('pages', $pages);
-        set('active', "blog");
-        set('title', "Admin - Blog");
-        return render("/admin/blog.php", "admin.layout.php");
+        set('title', "Admin - Projects");
+        set('active', "projects");
+        return render("/admin/projects.php", "admin.layout.php");
       } else {
         return redirect_to("/admin");
       }
@@ -72,40 +72,40 @@
         
         $posted = false;
         
-        if(isset($_POST["title"]) && isset($_POST["content"]) && isset($_POST["posted"]) && $db->connected()) {
-          $title = $_POST["title"];
+        if(isset($_POST["name"]) && isset($_POST["content"]) && isset($_POST["added"]) && $db->connected()) {
+          $name = $_POST["name"];
           $content = $_POST["content"];
-          $posted = $_POST["posted"];
+          $added = $_POST["added"];
           $info = $content; // Add code that will shorten the content
           
           $query = "";
           
           if($id != null) {
-            $query = sprintf("UPDATE `blog` SET `title` = '%s', `info` = '%s', `content` = '%s', `posted` = '%s' WHERE `id` = '%s'",
-              $db->escape_string($title),
+            $query = sprintf("UPDATE `projects` SET `name` = '%s', `info` = '%s', `content` = '%s', `added` = '%s' WHERE `id` = '%s'",
+              $db->escape_string($name),
               $db->escape_string($info),
               $db->escape_string($content),
-              $db->escape_string($posted),
+              $db->escape_string($added),
               $db->escape_string($id)
             );
           } else {
-            $query = sprintf("INSERT INTO `blog` (`title`, `info`, `content`, `added`, `by`) VALUES ('%s', '%s', '%s', '%s', '%s')",
-              $db->escape_string($title), // Add in code to escape string
+            $query = sprintf("INSERT INTO `projects` (`name`, `info`, `content`, `added`, `by`) VALUES ('%s', '%s', '%s', '%s', '%s')",
+              $db->escape_string($name),
               $db->escape_string($info),
               $db->escape_string($content),
-              $db->escape_string($posted),
+              $db->escape_string($added),
               $db->escape_string($login["id"])
             );
           }
           
           $result = $db->query($query);
           
-          if($result != null) {
+          if($result != false) {
             $posted = true;
           }
         }
         
-        return redirect_to("/admin/blog", Array("posted" => $posted ? "true" : "false"));
+        return redirect_to("/admin/projects", Array("posted" => $posted ? "true" : "false"));
       } else {
         return redirect_to("/admin");
       }
@@ -114,49 +114,49 @@
     public function edit() {
       $login = Admin::check_login();
       
-      if($login != null) {
+      if($login != false) {
         $db = new DB();
         $id = params("id");
         
-        $post = null;
+        $project = null;
         
         if($id != null && $id != "new") {
           if($db->connected()) {
-            $query = sprintf("SELECT `id`, `title`, `content`, `added` FROM `blog` WHERE `id` = '%s'",
+            $query = sprintf("SELECT `id`, `name`, `info`, `added` FROM `projects` WHERE `id` = '%s'",
               $db->escape_string($id)
             );
             $result = $db->query($query);
             
             if($result != false) {
               while($row = $result->fetch_assoc()) {
-                $date = new DateTime($row['added']);
+                $date = new DateTime($row["added"]);
                 
-                $post = Array(
+                $project = Array(
                   "id" => $row['id'],
-                  "title" => $row['title'],
-                  "content" => $row['content'],
+                  "name" => $row['name'],
+                  "info" => $row['info'],
                   "added" => $date->format('Y-m-d')
                 );
               }
             }
-          } 
+          }
         } elseif($id == "new") {
-          $post = Array(
+          $project = Array(
             "id" => "",
-            "title" => "",
-            "content" => "",
-            "added" => date("Y-m-d")
+            "name" => "",
+            "info" => "",
+            "added" => date('Y-m-d')
           );
         }
         
-        if($post != null) {
+        if($project != null) {
           set('login', $login);
-          set('post', $post);
-          set('title', "Admin - Edit Post");
-          set('active', "blog");
-          return render("admin/blog_edit.php", "admin.layout.php");
+          set('project', $project);
+          set('active', "projects");
+          set('title', "Admin - Edit Projects");
+          return render("admin/projects_edit.php", "admin.layout.php");
         } else {
-          return redirect_to("/admin/blog", Array("exists" => false));
+          return redirect_to("/admin/projects", Array("exists" => false));
         }
       } else {
         return redirect_to("/admin");
@@ -164,14 +164,16 @@
     }
     
     public function remove() {
-      if(Admin::check_login()) {
+      $login = Admin::check_login();
+      
+      if($login != false) {
         $deleted = false;
         $db = new DB();
         $id = params("id");
         
         if($id != null && $db->connected()) {
-          $query = sprintf("DELETE FROM `blog` WHERE `id` = '%s'",
-           $db->escape_string($id)
+          $query = sprintf("DELETE FROM `projects` WHERE `id` = '%s'",
+            $db->escape_string($id)
           );
           $result = $db->query($query);
           
@@ -180,7 +182,7 @@
           }
         }
         
-        return redirect_to("/admin/blog", Array("deleted" => $deleted));
+        return redirect_to("/admin/projects", Array("deleted" => $deleted));
       } else {
         return redirect_to("/admin");
       }

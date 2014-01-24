@@ -1,5 +1,5 @@
 <?php
-  class Blog {
+  class BlogController extends MainBaseController {
     public function index() {
       global $config;
       

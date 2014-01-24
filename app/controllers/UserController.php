@@ -1,5 +1,5 @@
 <?php
-class User {
+class UserController extends MainBaseController {
   
   public function index() {
     $id = params('id');
@@ -84,50 +84,6 @@ class User {
     }
     
     return redirect_to($admin ? '/admin' : ($login ? '/' : '/user/login'), $login ? null : Array("login" => "false"));
-  }
-  
-  // Here are some functions that can really be used in a seperate library
-  public function check_login() { 
-    $db = new DB();
-    
-    $login = false;
-    
-    if($db->connected() && isset($_COOKIE["user_key"]) && isset($_COOKIE["user_auth"])) {
-      $key = $_COOKIE["user_key"];
-      $auth = $_COOKIE["user_auth"];
-      
-      $query = sprintf("SELECT `user` FROM `sessions` WHERE (`key` = '%s' AND `auth` = '%s')", 
-        $db->escape_string($key),
-        $db->escape_string($auth)
-      );
-      $result = $db->query($query);
-      
-      if($result != null) {
-        while($row = $result->fetch_assoc()) {
-          $user_id = $row["user"];
-          
-          $user_query = sprintf("SELECT `name`, `full`, `admin` FROM `users` WHERE `id` = '%s'",
-            $db->escape_string($user_id)
-          );
-          $user_result = $db->query($user_query);
-          
-          if($user_result != null) {
-            // TODO: Add in login check
-            while($row = $user_result->fetch_assoc()) {
-              
-              $login = Array(
-                "id" => $user_id,
-                "name" => $row["name"],
-                "full" => $row["full"],
-                "admin" => $row["admin"]
-              );
-            }
-          }
-        }
-      }
-    }
-    
-    return $login;
   }
   
   // Taken from (http://www.linuxjournal.com/article/9585?page=0,3)
