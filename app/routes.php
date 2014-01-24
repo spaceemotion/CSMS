@@ -26,6 +26,8 @@ Route::post('/session/login', 'SessionController@login');
 /**
  * Resource Controllers
  */
+
+// TODO: Implement api.* sub-domain
 Route::resource('api/user', 'UserController');
 Route::resource('api/server', 'ServerController');
 Route::resource('api/map', 'MapController');
@@ -33,29 +35,38 @@ Route::resource('api/map', 'MapController');
 /**
  * Admin Controllers
  */
-Route::get('/admin', "Admin@index");
-
-Route::post('/admin/blog/post/{id}', "Admin\BlogController@post");
-Route::get('/admin/blog/delete/{id}', "Admin\BlogController@remove");
-Route::get('/admin/blog/edit/{id}', "Admin\BlogController@edit");
-Route::get('/admin/blog/{page}', "Admin\BlogController@index");
-
-Route::post('/admin/servers/update/{id}', "Admin\ServersController@update");
-Route::get('/admin/servers/delete/{id}', "Admin\ServersController@remove");
-Route::get('/admin/servers/edit/{id}', "Admin\ServersController@edit");
-Route::get('/admin/servers/{page}', "Admin\ServersController@index");
-
-Route::post('/admin/maps/update/{id}', "Admin\MapsController@update");
-Route::get('/admin/maps/delete/{id}', "Admin\MapsController@remove");
-Route::get('/admin/maps/edit/{id}', "Admin\MapsController@edit");
-Route::get('/admin/maps/{page}', "Admin\MapsController@index");
-
-Route::get('/admin/users/new', "Admin\UsersController@create_page");
-Route::post('/admin/users/new', "Admin\UsersController@create");
-Route::post('/admin/users/edit', "Admin\UsersController@edit");
-Route::post('/admin/users/update', "Admin\UsersController@update");
-Route::post('/admin/users/delete', "Admin\UsersController@remove");
-Route::get('/admin/users/{page}', "Admin\UsersController@index");
-
-Route::get('/admin/logout', "Admin\Controller@logout");
-Route::post('/admin/login', "Admin\Controller@login");
+Route::group('admin', function() {
+  Route::group('blog', function() {
+    Route::post('post/{id}', "Admin\BlogController@post");
+    Route::get('delete/{id}', "Admin\BlogController@remove");
+    Route::get('edit/{id}', "Admin\BlogController@edit");
+    Route::get('/{page}', "Admin\BlogController@index");
+  }
+  
+  Route::group('servers', function() {
+    Route::post('update/{id}', "Admin\ServersController@update");
+    Route::get('delete/{id}', "Admin\ServersController@remove");
+    Route::get('edit/{id}', "Admin\ServersController@edit");
+    Route::get('/{page}', "Admin\ServersController@index");
+  }
+  
+  Route::group('maps', function() {
+    Route::post('update/{id}', "Admin\MapsController@update");
+    Route::get('delete/{id}', "Admin\MapsController@remove");
+    Route::get('edit/{id}', "Admin\MapsController@edit");
+    Route::get('/{page}', "Admin\MapsController@index");
+  }
+  
+  Route::group('users', function() {
+    Route::get('new', "Admin\UsersController@create_page");
+    Route::post('new', "Admin\UsersController@create");
+    Route::post('edit', "Admin\UsersController@edit");
+    Route::post('update', "Admin\UsersController@update");
+    Route::post('delete', "Admin\UsersController@remove");
+    Route::get('/{page}', "Admin\UsersController@index");
+  }
+  
+  Route::get('/', "Admin@index");
+  Route::get('/logout', "Admin\Controller@logout");
+  Route::post('/login', "Admin\Controller@login");
+}

@@ -49,7 +49,7 @@
       </nav>
     </header>
     <section>
-    <?= $content;?>
+    {{$content}}
     </section>
     <footer>
       <div class="container">
