@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title><?= $vars['title'];?></title>
+    <title>{{$title}}</title>
     <meta charset="utf-8">
     <meta name="description" content="The Catacomb Snatch Repository">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -23,14 +23,14 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li<? if($vars['active'] == "game") { echo " class=\"active\""; }?>><a href="/game">Game</a></li>
-            <li<? if($vars['active'] == "servers") { echo " class=\"active\""; }?>><a href="/servers">Servers</a></li>
-            <li<? if($vars['active'] == "maps") { echo " class=\"active\""; }?>><a href="/maps">Maps</a></li>
-            <li<? if($vars['active'] == "blog") { echo " class=\"active\""; }?>><a href="/blog">Blog</a></li>
+            <li{{($active == "game") ? " class=\"active\"" : ""}}><a href="/game">Game</a></li>
+            <li{{($active == "servers") ? " class=\"active\"" : "" }}><a href="/servers">Servers</a></li>
+            <li{{($active == "maps") ? " class=\"active\"" : "" }}><a href="/maps">Maps</a></li>
+            <li{{($active == "blog") ? " class=\"active\"" : "" }}><a href="/blog">Blog</a></li>
           </ul>
         
           <ul class="nav navbar-nav navbar-right">
-            <? if(false):?>
+            @if(false)
             <p class="navbar-text hidden-xs">Signed in as <?= $login['name'];?></p>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <b class="caret"></b></a>
@@ -41,9 +41,9 @@
                 <li><a href="/user/logout">Logout</a></li>
               </ul>
             </li>
-            <? else:?>
-            <li<? if($vars['active'] == "login") { echo " class=\"active\""; }?>><a href="/user/login">Login</a></li>
-            <? endif;?>
+            @else
+            <li{{($active == "login") ? " class=\"active\"" : "" }}><a href="/user/login">Login</a></li>
+            @endif
           </ul>
         </div>
       </nav>

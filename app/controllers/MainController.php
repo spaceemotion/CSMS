@@ -1,19 +1,18 @@
 <?php
   class MainController extends \BaseController {
     public function index() {
-      global $config;
-      
-      set('title', $config['site_name']);
-      set('active', "index");
-      return render("main/index.php", "main.layout.php");
+      $this->layout->title = "Catacomb Snatch";
+      $this->layout->active = "index";
+      $this->layout->login = false;
+      $this->layout->content = View::make('main.index');
     }
     
     public function game() {
       global $config;
       
-      set('title', $config['site_name'] . " - Game");
-      set('active', "game");
-      return render("main/game.php", "main.layout.php");
+      $this->layout->title = "Catacomb Snatch - Game";
+      $this->layout->active =  "game";
+      $this->layout->content = View::make('main.game');
     }
     
     public function download() {
