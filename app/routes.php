@@ -17,11 +17,28 @@ Route::get('/game/download', 'MainController@download');
 Route::get('/game/license', 'MainController@license');
 
 Route::get('/blog/article/{id}', "BlogController@article");
-Route::get('/blog/{page}', "BlogController@index");
+Route::get('/blog/{page?}', "BlogController@index");
 
 Route::get('/session/login', 'SessionController@login_page');
 Route::get('/session/logout', 'SessionController@logout');
 Route::post('/session/login', 'SessionController@login');
+
+/**
+ * These are just templates for us to show to the client JS will get API data
+ */
+Route::get('/servers', "MainController@servers");
+Route::get('/server/{id}', "MainController@server");
+Route::get('/server/edit', "MainController@server_edit");
+
+Route::get('/maps', "MainController@maps");
+Route::get('/map/{id}', "MainController@map");
+Route::get('/map/edit', "MainController@map_edit");
+
+Route::get('/users', "MainController@users");
+Route::get('/user/{id}', "MainController@user");
+
+Route::get('/settings/profile', "MainController@settings_profile");
+Route::get('/settings/account', "MainController@settings_account");
 
 /**
  * Resource Controllers
@@ -35,38 +52,29 @@ Route::resource('api/map', 'MapController');
 /**
  * Admin Controllers
  */
-Route::group('admin', function() {
-  Route::group('blog', function() {
+Route::group(array('prefix' => 'admin'), function() {
+  Route::group(array('prefix' => 'blog'), function() {
     Route::post('post/{id}', "Admin\BlogController@post");
     Route::get('delete/{id}', "Admin\BlogController@remove");
     Route::get('edit/{id}', "Admin\BlogController@edit");
-    Route::get('/{page}', "Admin\BlogController@index");
-  }
+    Route::get('/{page?}', "Admin\BlogController@index");
+  });
   
-  Route::group('servers', function() {
-    Route::post('update/{id}', "Admin\ServersController@update");
-    Route::get('delete/{id}', "Admin\ServersController@remove");
+  Route::group(array('prefix' => 'servers'), function() {
     Route::get('edit/{id}', "Admin\ServersController@edit");
-    Route::get('/{page}', "Admin\ServersController@index");
-  }
+    Route::get('/{page?}', "Admin\ServersController@index");
+  });
   
-  Route::group('maps', function() {
-    Route::post('update/{id}', "Admin\MapsController@update");
-    Route::get('delete/{id}', "Admin\MapsController@remove");
+  Route::group(array('prefix' => 'maps'), function() {
     Route::get('edit/{id}', "Admin\MapsController@edit");
-    Route::get('/{page}', "Admin\MapsController@index");
-  }
+    Route::get('/{page?}', "Admin\MapsController@index");
+  });
   
-  Route::group('users', function() {
-    Route::get('new', "Admin\UsersController@create_page");
-    Route::post('new', "Admin\UsersController@create");
+  Route::group(array('prefix' => 'users'), function() {
     Route::post('edit', "Admin\UsersController@edit");
-    Route::post('update', "Admin\UsersController@update");
-    Route::post('delete', "Admin\UsersController@remove");
-    Route::get('/{page}', "Admin\UsersController@index");
-  }
+    Route::get('/{page?}', "Admin\UsersController@index");
+  });
   
   Route::get('/', "Admin@index");
-  Route::get('/logout', "Admin\Controller@logout");
-  Route::post('/login', "Admin\Controller@login");
-}
+  Route::get('/switch', "Admin\Controller@switch");
+});

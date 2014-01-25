@@ -38,11 +38,11 @@
                 <li><a href="/settings/profile">Profile</a></li>
                 <li><a href="/settings/account">Account</a></li>
                 <li class="divider"></li>
-                <li><a href="/user/logout">Logout</a></li>
+                <li><a href="/session/logout">Logout</a></li>
               </ul>
             </li>
             @else
-            <li{{($active == "login") ? " class=\"active\"" : "" }}><a href="/user/login">Login</a></li>
+            <li{{($active == "login") ? " class=\"active\"" : "" }}><a href="/session/login">Login</a></li>
             @endif
           </ul>
         </div>
@@ -65,6 +65,7 @@
       <? /* Place all scripts at bottom */ ?>
       <script type="text/javascript" src="//code.jquery.com/jquery-1.10.1.min.js"></script>
       <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="/js/main.js"></script>
     </footer>
   </body>
 </html>
