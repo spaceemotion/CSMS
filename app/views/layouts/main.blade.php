@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{$title}}</title>
+    <title>{{ $title or 'Catacomb Snatch' }}</title>
+
     <meta charset="utf-8">
     <meta name="description" content="The Catacomb Snatch Repository">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+    {{ HTML::style('//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css') }}
+    {{ HTML::style('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css') }}
+    {{ HTML::style('/css/main.css') }}
   </head>
+
   <body>
     <header>
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -19,16 +22,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Catacomb Snatch</a>
+
+          {{ HTML::linkRoute('home', 'Catacomb Snatch') }}
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <li{{($active == "game") ? " class=\"active\"" : ""}}><a href="/game">Game</a></li>
-            <li{{($active == "servers") ? " class=\"active\"" : "" }}><a href="/servers">Servers</a></li>
-            <li{{($active == "maps") ? " class=\"active\"" : "" }}><a href="/maps">Maps</a></li>
-            <li{{($active == "blog") ? " class=\"active\"" : "" }}><a href="/blog">Blog</a></li>
-          </ul>
-        
+
           <ul class="nav navbar-nav navbar-right">
             @if(false)
             <p class="navbar-text hidden-xs">Signed in as <?= $login['name'];?></p>
@@ -42,14 +40,13 @@
               </ul>
             </li>
             @else
-            <li{{($active == "login") ? " class=\"active\"" : "" }}><a href="/session/login">Login</a></li>
             @endif
           </ul>
         </div>
       </nav>
     </header>
     <section>
-    {{$content}}
+      <div class="container">@yield('content')</div>
     </section>
     <footer>
       <div class="container">

@@ -107,6 +107,9 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
+		'Former\FormerServiceProvider',
+		'Menu\MenuServiceProvider',
+
 	),
 
 	/*
@@ -150,12 +153,14 @@ return array(
 		'Event'           => 'Illuminate\Support\Facades\Event',
 		'File'            => 'Illuminate\Support\Facades\File',
 		'Form'            => 'Illuminate\Support\Facades\Form',
+		'Former'          => 'Former\Facades\Former',
 		'Hash'            => 'Illuminate\Support\Facades\Hash',
 		'HTML'            => 'Illuminate\Support\Facades\HTML',
 		'Input'           => 'Illuminate\Support\Facades\Input',
 		'Lang'            => 'Illuminate\Support\Facades\Lang',
 		'Log'             => 'Illuminate\Support\Facades\Log',
 		'Mail'            => 'Illuminate\Support\Facades\Mail',
+		'Menu'            => 'Menu\Menu',
 		'Paginator'       => 'Illuminate\Support\Facades\Paginator',
 		'Password'        => 'Illuminate\Support\Facades\Password',
 		'Queue'           => 'Illuminate\Support\Facades\Queue',

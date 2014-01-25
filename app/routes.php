@@ -11,17 +11,18 @@
 |
 */
 
-Route::get('/', 'MainController@index');
+Route::get('/', ['as' => 'home', function()
+{
+  return View::make('pages.home');
+
+}]);
+
 Route::get('/game', 'MainController@game');
 Route::get('/game/download', 'MainController@download');
 Route::get('/game/license', 'MainController@license');
 
 Route::get('/blog/article/{id}', "BlogController@article");
 Route::get('/blog/{page?}', "BlogController@index");
-
-Route::get('/session/login', 'SessionController@login_page');
-Route::get('/session/logout', 'SessionController@logout');
-Route::post('/session/login', 'SessionController@login');
 
 /**
  * These are just templates for us to show to the client JS will get API data
@@ -34,11 +35,26 @@ Route::get('/maps', "MainController@maps");
 Route::get('/map/{id}', "MainController@map");
 Route::get('/map/edit', "MainController@map_edit");
 
-Route::get('/users', "MainController@users");
-Route::get('/user/{id}', "MainController@user");
+Route::get('/users', "UserController@index");
+Route::get('/users/{id}', ['as' => 'user.profile', 'uses' => "UserController@show"]);
 
-Route::get('/settings/profile', "MainController@settings_profile");
-Route::get('/settings/account', "MainController@settings_account");
+Route::group(['before' => 'auth'], function()
+{
+  Route::get('session/logout', 'SessionController@logout');
+
+  Route::get('settings/profile', "MainController@settings_profile");
+  Route::get('settings/account', "MainController@settings_account");
+});
+
+Route::group(['before' => 'guest'], function()
+{
+  Route::get('login', function()
+  {
+    return View::make('main.users.login');
+  });
+
+  Route::post('login', 'SessionController@login');
+});
 
 /**
  * Resource Controllers
@@ -59,22 +75,22 @@ Route::group(array('prefix' => 'admin'), function() {
     Route::get('edit/{id}', "Admin\BlogController@edit");
     Route::get('/{page?}', "Admin\BlogController@index");
   });
-  
+
   Route::group(array('prefix' => 'servers'), function() {
     Route::get('edit/{id}', "Admin\ServersController@edit");
     Route::get('/{page?}', "Admin\ServersController@index");
   });
-  
+
   Route::group(array('prefix' => 'maps'), function() {
     Route::get('edit/{id}', "Admin\MapsController@edit");
     Route::get('/{page?}', "Admin\MapsController@index");
   });
-  
+
   Route::group(array('prefix' => 'users'), function() {
     Route::post('edit', "Admin\UsersController@edit");
     Route::get('/{page?}', "Admin\UsersController@index");
   });
-  
+
   Route::get('/', "Admin@index");
   Route::get('/switch', "Admin\Controller@switch");
 });
